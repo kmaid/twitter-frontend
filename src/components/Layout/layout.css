@@ -1,0 +1,11 @@
+html,
+body,
+#root,
+.Layout {
+  height: 100%;
+  background-color: #f5f5f5;
+  margin: auto;
+}
+.Layout {
+  max-width: 1250px;
+}
