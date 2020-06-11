@@ -1,7 +1,9 @@
 import React from "react";
 import "./layout.css";
 import { AppBar, Toolbar, Typography, Box } from "@material-ui/core";
-interface LayoutProps {}
+interface LayoutProps {
+  title: string;
+}
 
 export function Layout(props: React.PropsWithChildren<LayoutProps>) {
   return (
@@ -9,14 +11,12 @@ export function Layout(props: React.PropsWithChildren<LayoutProps>) {
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" color="inherit">
-            Home
+            {props.title}
           </Typography>
         </Toolbar>
       </AppBar>
       <Toolbar />
-      <div className="Layout">
-        <Box pt={3}>{props.children}</Box>
-      </div>
+      <Box pt={3}>{props.children}</Box>
     </>
   );
 }
