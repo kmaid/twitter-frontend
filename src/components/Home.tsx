@@ -34,6 +34,7 @@ interface Props extends WithStyles<typeof styles> {}
 export const GET_USERS_QUERY = gql`
   query GET_USERS {
     users {
+      id
       commercial
       createdAt
       excluded

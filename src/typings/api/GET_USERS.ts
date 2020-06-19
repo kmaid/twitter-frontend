@@ -19,6 +19,7 @@ export interface GET_USERS_users_userData {
 
 export interface GET_USERS_users {
   __typename: "User";
+  id: string;
   commercial: boolean;
   createdAt: any;
   excluded: boolean;
