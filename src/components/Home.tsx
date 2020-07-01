@@ -8,16 +8,15 @@ import {
   LinearProgress,
 } from "@material-ui/core";
 import TwitterUser from "./TwitterUser";
-import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
+import { gql, useQuery } from "@apollo/client";
 import { GET_USERS } from "../typings/api/GET_USERS";
+import { GET_CATEGORIES } from "../typings/api/GET_CATEGORIES";
 const styles = (theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
       backgroundColor: theme.palette.grey["100"],
       overflow: "hidden",
-      // background: `url(${backgroundShape}) no-repeat`,
       backgroundSize: "cover",
       backgroundPosition: "0 400px",
       paddingBottom: 200,
@@ -39,6 +38,10 @@ export const GET_USERS_QUERY = gql`
       createdAt
       excluded
       updatedAt
+      friendsCrawled
+      categories {
+        id
+      }
       userData {
         name
         screenName
@@ -48,16 +51,38 @@ export const GET_USERS_QUERY = gql`
         profileImageUrlHttps
       }
     }
+    categories {
+      id
+      name
+      iconName
+      iconSelectedColor
+    }
+  }
+`;
+
+export const GET_CATEGORIES_QUERY = gql`
+  query GET_CATEGORIES {
+    categories {
+      id
+      name
+      iconName
+      iconSelectedColor
+    }
   }
 `;
 
 const Home = (props: Props) => {
   const { classes } = props;
-  const { loading, data } = useQuery<GET_USERS>(GET_USERS_QUERY);
+  const { loading: userLoading, data: userData } = useQuery<GET_USERS>(
+    GET_USERS_QUERY
+  );
+  const { loading: categoriesLoading, data: categoriesData } = useQuery<
+    GET_CATEGORIES
+  >(GET_CATEGORIES_QUERY);
   return (
     <Grid container justify="center">
-      {loading && <LinearProgress />}
-      {data && (
+      {(userLoading || categoriesLoading) && <LinearProgress />}
+      {userData && categoriesData && (
         <Grid
           spacing={4}
           alignItems="center"
@@ -65,8 +90,12 @@ const Home = (props: Props) => {
           container
           className={classes.grid}
         >
-          {data.users.map((user) => (
-            <TwitterUser user={user} />
+          {userData.users.map((user) => (
+            <TwitterUser
+              key={user.id}
+              user={user}
+              categories={categoriesData.categories}
+            />
           ))}
         </Grid>
       )}

@@ -7,6 +7,11 @@
 // GraphQL query operation: GET_USERS
 // ====================================================
 
+export interface GET_USERS_users_categories {
+  __typename: "Category";
+  id: string;
+}
+
 export interface GET_USERS_users_userData {
   __typename: "UserData";
   name: string;
@@ -24,6 +29,8 @@ export interface GET_USERS_users {
   createdAt: any;
   excluded: boolean;
   updatedAt: any;
+  friendsCrawled: any | null;
+  categories: GET_USERS_users_categories[];
   userData: GET_USERS_users_userData | null;
 }
 

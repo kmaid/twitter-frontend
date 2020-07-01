@@ -8,11 +8,22 @@ import {
   Theme,
   WithStyles,
   Avatar,
-  Checkbox,
+  Icon,
+  IconButton,
 } from "@material-ui/core";
 import { GET_USERS_users } from "../typings/api/GET_USERS";
-import Favorite from "@material-ui/icons/Favorite";
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+import { MaterialIconCheckbox } from "./MaterialIconCheckbox";
+import { red } from "@material-ui/core/colors";
+import classNames from "classnames";
+import { GET_CATEGORIES_categories } from "../typings/api/GET_CATEGORIES";
+import { gql } from "@apollo/client";
+
+const SET_CATEGORIES_QUERY = gql`
+mutation SET_CATEGORY
+`;
+
+const setCategory = (userId: number, categoryId: number) => {};
+
 const styles = (theme: Theme) =>
   createStyles({
     avatar: {
@@ -49,16 +60,34 @@ const styles = (theme: Theme) =>
       margin: theme.spacing(1),
       width: 152,
     },
+    categoryContainer: {
+      display: "flex",
+      justifyContent: "space-between",
+      flex: 1,
+      alignItems: "flex-end",
+    },
+    iconButton: { width: 42, height: 42 },
+    iconButtonActive: {
+      color: theme.palette.primary.main,
+    },
   });
 
 interface Props extends WithStyles<typeof styles> {
   user: GET_USERS_users;
+  categories: GET_CATEGORIES_categories[];
 }
 
 const TwitterUser = (props: Props) => {
   const {
     classes,
-    user: { userData, id: userId },
+    user: {
+      userData,
+      id: userId,
+      categories: userCategories,
+      friendsCrawled,
+      excluded,
+    },
+    categories,
   } = props;
 
   if (!userData) {
@@ -108,39 +137,38 @@ const TwitterUser = (props: Props) => {
             {userData.description}
           </Typography>
         )}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            flex: 1,
-            alignItems: "flex-end",
-          }}
-        >
-          <Checkbox
-            icon={<FavoriteBorder />}
-            checkedIcon={<Favorite />}
-            name="checkedH"
+        <div className={classes.categoryContainer}>
+          <IconButton className={classes.iconButton}>
+            <Icon
+              className={classNames({
+                [classes.iconButtonActive]: !!friendsCrawled,
+              })}
+            >
+              people_alt
+            </Icon>
+          </IconButton>
+          <MaterialIconCheckbox
+            materialUiIcon="block"
+            defaultChecked={excluded}
+            checkedColor={red[600]}
           />
-          <Checkbox
-            icon={<FavoriteBorder />}
-            checkedIcon={<Favorite />}
-            name="checkedH"
-          />
-          <Checkbox
-            icon={<FavoriteBorder />}
-            checkedIcon={<Favorite />}
-            name="checkedH"
-          />
-          <Checkbox
-            icon={<FavoriteBorder />}
-            checkedIcon={<Favorite />}
-            name="checkedH"
-          />
-          <Checkbox
-            icon={<FavoriteBorder />}
-            checkedIcon={<Favorite />}
-            name="checkedH"
-          />
+          {categories.map((category) => (
+            <MaterialIconCheckbox
+              key={category.id}
+              materialUiIcon={category.iconName}
+              onClick={() => {
+                alert(`${category.name}`);
+              }}
+              defaultChecked={userCategories.some(
+                (uc) => uc.id === category.id
+              )}
+              checkedColor={
+                category.iconSelectedColor
+                  ? category.iconSelectedColor
+                  : undefined
+              }
+            />
+          ))}
         </div>
       </Paper>
     </Grid>
