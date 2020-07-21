@@ -1,0 +1,7 @@
+#import "./userFragments.graphql"
+
+query GET_USERS {
+  users {
+    ...TwitterCardUserFragment
+  }
+}

@@ -1,0 +1,8 @@
+query GET_CATEGORIES {
+  categories {
+    id
+    name
+    iconName
+    iconSelectedColor
+  }
+}

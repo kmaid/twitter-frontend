@@ -1,0 +1,18 @@
+mutation AddRemoveCategoryToUser(
+  $categoryId: Float!
+  $userId: String!
+  $add: Boolean!
+) {
+  addRemoveCategoryToUser(categoryId: $categoryId, userId: $userId, add: $add) {
+    id
+    categories {
+      id
+      name
+    }
+    userData {
+      id
+      name
+      version
+    }
+  }
+}

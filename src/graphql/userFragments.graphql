@@ -1,0 +1,19 @@
+fragment TwitterCardUserFragment on User {
+  id
+  commercial
+  createdAt
+  excluded
+  updatedAt
+  friendsCrawled
+  categories {
+    id
+  }
+  userData {
+    name
+    screenName
+    description
+    followersCount
+    friendsCount
+    profileImageUrlHttps
+  }
+}

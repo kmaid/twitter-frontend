@@ -16,13 +16,11 @@ import { MaterialIconCheckbox } from "./MaterialIconCheckbox";
 import { red } from "@material-ui/core/colors";
 import classNames from "classnames";
 import { GET_CATEGORIES_categories } from "../typings/api/GET_CATEGORIES";
-import { gql } from "@apollo/client";
-
-const SET_CATEGORIES_QUERY = gql`
-mutation SET_CATEGORY
-`;
-
-const setCategory = (userId: number, categoryId: number) => {};
+import { useMutation } from "@apollo/client";
+import { loader } from "graphql.macro";
+import { setCategory } from "../typings/api/setCategory";
+import { AddRemoveCategoryToUserVariables } from "../typings/api/AddRemoveCategoryToUser";
+const SET_CATEGORY_QUERY = loader("../graphql/setCategory.graphql");
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -89,7 +87,10 @@ const TwitterUser = (props: Props) => {
     },
     categories,
   } = props;
-
+  const [toggleCategory] = useMutation<
+    setCategory,
+    AddRemoveCategoryToUserVariables
+  >(SET_CATEGORY_QUERY);
   if (!userData) {
     return (
       <Grid item sm={12} md={6} lg={4} xl={3}>
@@ -156,8 +157,14 @@ const TwitterUser = (props: Props) => {
             <MaterialIconCheckbox
               key={category.id}
               materialUiIcon={category.iconName}
-              onClick={() => {
-                alert(`${category.name}`);
+              onChange={(event: React.FormEvent<HTMLInputElement>) => {
+                toggleCategory({
+                  variables: {
+                    add: event.currentTarget.checked,
+                    categoryId: Number.parseInt(category.id),
+                    userId,
+                  },
+                });
               }}
               defaultChecked={userCategories.some(
                 (uc) => uc.id === category.id
