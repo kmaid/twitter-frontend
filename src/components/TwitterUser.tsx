@@ -166,9 +166,7 @@ const TwitterUser = (props: Props) => {
                   },
                 });
               }}
-              defaultChecked={userCategories.some(
-                (uc) => uc.id === category.id
-              )}
+              checked={userCategories.some((uc) => uc.id === category.id)}
               checkedColor={
                 category.iconSelectedColor
                   ? category.iconSelectedColor
