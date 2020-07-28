@@ -870,7 +870,7 @@
             "description": null,
             "args": [
               {
-                "name": "id",
+                "name": "userId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",

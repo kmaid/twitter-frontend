@@ -26,8 +26,13 @@ import {
   setUserExcludedMutation,
   setUserExcludedMutationVariables,
 } from "../typings/api/setUserExcludedMutation";
+import {
+  crawlFriendsMutation,
+  crawlFriendsMutationVariables,
+} from "../typings/api/crawlFriendsMutation";
 const SET_CATEGORY_MUTATION = loader("../graphql/setUserCategory.graphql");
 const SET_EXCLUDED_MUTATION = loader("../graphql/setUserExcluded.graphql");
+const CRAWL_FRIENDS_MUTATION = loader("../graphql/crawlFriends.graphql");
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -102,6 +107,10 @@ const TwitterUser = (props: Props) => {
     setUserExcludedMutation,
     setUserExcludedMutationVariables
   >(SET_EXCLUDED_MUTATION);
+  const [crawlFriends] = useMutation<
+    crawlFriendsMutation,
+    crawlFriendsMutationVariables
+  >(CRAWL_FRIENDS_MUTATION);
   if (!userData) {
     return (
       <Grid item sm={12} md={6} lg={4} xl={3}>
@@ -150,7 +159,10 @@ const TwitterUser = (props: Props) => {
           </Typography>
         )}
         <div className={classes.categoryContainer}>
-          <IconButton className={classes.iconButton}>
+          <IconButton
+            onClick={() => crawlFriends({ variables: { userId } })}
+            className={classes.iconButton}
+          >
             <Icon
               className={classNames({
                 [classes.iconButtonActive]: !!friendsCrawled,

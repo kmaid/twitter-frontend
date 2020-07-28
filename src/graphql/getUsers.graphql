@@ -1,6 +1,6 @@
 #import "./userFragments.graphql"
 
-query GetUsersQuery {
+query getUsersQuery {
   users {
     ...TwitterCardUserFragment
   }

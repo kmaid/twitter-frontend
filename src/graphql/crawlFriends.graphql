@@ -1,0 +1,3 @@
+mutation crawlFriendsMutation($userId: String!) {
+  crawlFriends(userId: $userId)
+}

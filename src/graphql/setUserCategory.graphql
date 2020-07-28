@@ -1,6 +1,6 @@
 #import "./userFragments.graphql"
 
-mutation SetUserCategoryMutation(
+mutation setUserCategoryMutation(
   $categoryId: String!
   $userId: String!
   $add: Boolean!
