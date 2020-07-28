@@ -1,0 +1,11 @@
+#import "./userFragments.graphql"
+
+mutation SetUserCategoryMutation(
+  $categoryId: String!
+  $userId: String!
+  $add: Boolean!
+) {
+  setUserCategory(categoryId: $categoryId, userId: $userId, add: $add) {
+    ...TwitterCardUserFragment
+  }
+}

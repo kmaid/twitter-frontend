@@ -1,4 +1,4 @@
-query GET_CATEGORIES {
+query GetCategoriesQuery {
   categories {
     id
     name

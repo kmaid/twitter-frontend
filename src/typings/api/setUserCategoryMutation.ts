@@ -4,15 +4,15 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GET_USERS
+// GraphQL mutation operation: setUserCategoryMutation
 // ====================================================
 
-export interface GET_USERS_users_categories {
+export interface setUserCategoryMutation_setUserCategory_categories {
   __typename: "Category";
   id: string;
 }
 
-export interface GET_USERS_users_userData {
+export interface setUserCategoryMutation_setUserCategory_userData {
   __typename: "UserData";
   name: string;
   screenName: string;
@@ -22,7 +22,7 @@ export interface GET_USERS_users_userData {
   profileImageUrlHttps: string;
 }
 
-export interface GET_USERS_users {
+export interface setUserCategoryMutation_setUserCategory {
   __typename: "User";
   id: string;
   commercial: boolean;
@@ -30,10 +30,16 @@ export interface GET_USERS_users {
   excluded: boolean;
   updatedAt: any;
   friendsCrawled: any | null;
-  categories: GET_USERS_users_categories[];
-  userData: GET_USERS_users_userData | null;
+  categories: setUserCategoryMutation_setUserCategory_categories[];
+  userData: setUserCategoryMutation_setUserCategory_userData | null;
 }
 
-export interface GET_USERS {
-  users: GET_USERS_users[];
+export interface setUserCategoryMutation {
+  setUserCategory: setUserCategoryMutation_setUserCategory;
+}
+
+export interface setUserCategoryMutationVariables {
+  categoryId: string;
+  userId: string;
+  add: boolean;
 }

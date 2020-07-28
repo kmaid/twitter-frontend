@@ -7,10 +7,14 @@ import {
   withStyles,
   LinearProgress,
 } from "@material-ui/core";
-import TwitterUser from "./TwitterUser";
-import { gql, useQuery } from "@apollo/client";
-import { GET_USERS } from "../typings/api/GET_USERS";
-import { GET_CATEGORIES } from "../typings/api/GET_CATEGORIES";
+import TwitterUser from "../components/TwitterUser";
+import { useQuery } from "@apollo/client";
+import { getUsersQuery } from "../typings/api/getUsersQuery";
+import { getCategoriesQuery } from "../typings/api/getCategoriesQuery";
+import { loader } from "graphql.macro";
+const GET_USERS_QUERY = loader("../graphql/getUsers.graphql");
+const GET_CATEGORIES_QUERY = loader("../graphql/getCategories.graphql");
+
 const styles = (theme: Theme) =>
   createStyles({
     root: {
@@ -29,55 +33,13 @@ const styles = (theme: Theme) =>
     },
   });
 interface Props extends WithStyles<typeof styles> {}
-
-export const GET_USERS_QUERY = gql`
-  query GET_USERS {
-    users {
-      id
-      commercial
-      createdAt
-      excluded
-      updatedAt
-      friendsCrawled
-      categories {
-        id
-      }
-      userData {
-        name
-        screenName
-        description
-        followersCount
-        friendsCount
-        profileImageUrlHttps
-      }
-    }
-    categories {
-      id
-      name
-      iconName
-      iconSelectedColor
-    }
-  }
-`;
-
-export const GET_CATEGORIES_QUERY = gql`
-  query GET_CATEGORIES {
-    categories {
-      id
-      name
-      iconName
-      iconSelectedColor
-    }
-  }
-`;
-
 const Home = (props: Props) => {
   const { classes } = props;
-  const { loading: userLoading, data: userData } = useQuery<GET_USERS>(
+  const { loading: userLoading, data: userData } = useQuery<getUsersQuery>(
     GET_USERS_QUERY
   );
   const { loading: categoriesLoading, data: categoriesData } = useQuery<
-    GET_CATEGORIES
+    getCategoriesQuery
   >(GET_CATEGORIES_QUERY);
   return (
     <Grid container justify="center">

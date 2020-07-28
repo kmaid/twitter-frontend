@@ -2,7 +2,7 @@ import React from "react";
 import { client } from "./ApolloClient";
 import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Home from "./components/Home";
+import Home from "./pages/Home";
 import { Layout } from "./components/Layout";
 import { blue, indigo } from "@material-ui/core/colors";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";

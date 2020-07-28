@@ -11,16 +11,18 @@ import {
   Icon,
   IconButton,
 } from "@material-ui/core";
-import { GET_USERS_users } from "../typings/api/GET_USERS";
+import { getUsersQuery_users } from "../typings/api/getUsersQuery";
 import { MaterialIconCheckbox } from "./MaterialIconCheckbox";
 import { red } from "@material-ui/core/colors";
 import classNames from "classnames";
-import { GET_CATEGORIES_categories } from "../typings/api/GET_CATEGORIES";
+import { getCategoriesQuery_categories } from "../typings/api/getCategoriesQuery";
 import { useMutation } from "@apollo/client";
 import { loader } from "graphql.macro";
-import { setCategory } from "../typings/api/setCategory";
-import { AddRemoveCategoryToUserVariables } from "../typings/api/AddRemoveCategoryToUser";
-const SET_CATEGORY_QUERY = loader("../graphql/setCategory.graphql");
+import {
+  setUserCategoryMutation,
+  setUserCategoryMutationVariables,
+} from "../typings/api/setUserCategoryMutation";
+const SET_CATEGORY_QUERY = loader("../graphql/setUserCategory.graphql");
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -71,8 +73,8 @@ const styles = (theme: Theme) =>
   });
 
 interface Props extends WithStyles<typeof styles> {
-  user: GET_USERS_users;
-  categories: GET_CATEGORIES_categories[];
+  user: getUsersQuery_users;
+  categories: getCategoriesQuery_categories[];
 }
 
 const TwitterUser = (props: Props) => {
@@ -88,8 +90,8 @@ const TwitterUser = (props: Props) => {
     categories,
   } = props;
   const [toggleCategory] = useMutation<
-    setCategory,
-    AddRemoveCategoryToUserVariables
+    setUserCategoryMutation,
+    setUserCategoryMutationVariables
   >(SET_CATEGORY_QUERY);
   if (!userData) {
     return (
@@ -161,7 +163,7 @@ const TwitterUser = (props: Props) => {
                 toggleCategory({
                   variables: {
                     add: event.currentTarget.checked,
-                    categoryId: Number.parseInt(category.id),
+                    categoryId: category.id,
                     userId,
                   },
                 });

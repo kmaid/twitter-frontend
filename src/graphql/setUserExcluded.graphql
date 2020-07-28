@@ -1,0 +1,7 @@
+#import "./userFragments.graphql"
+
+mutation setUserExcludedMutation($userId: String!, $excluded: Boolean!) {
+  setUserExcluded(userId: $userId, excluded: $excluded) {
+    ...TwitterCardUserFragment
+  }
+}

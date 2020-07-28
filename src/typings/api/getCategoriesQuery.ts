@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GET_CATEGORIES
+// GraphQL query operation: getCategoriesQuery
 // ====================================================
 
-export interface GET_CATEGORIES_categories {
+export interface getCategoriesQuery_categories {
   __typename: "Category";
   id: string;
   name: string;
@@ -15,6 +15,6 @@ export interface GET_CATEGORIES_categories {
   iconSelectedColor: string | null;
 }
 
-export interface GET_CATEGORIES {
-  categories: GET_CATEGORIES_categories[];
+export interface getCategoriesQuery {
+  categories: getCategoriesQuery_categories[];
 }
