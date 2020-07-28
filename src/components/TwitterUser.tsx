@@ -22,7 +22,12 @@ import {
   setUserCategoryMutation,
   setUserCategoryMutationVariables,
 } from "../typings/api/setUserCategoryMutation";
-const SET_CATEGORY_QUERY = loader("../graphql/setUserCategory.graphql");
+import {
+  setUserExcludedMutation,
+  setUserExcludedMutationVariables,
+} from "../typings/api/setUserExcludedMutation";
+const SET_CATEGORY_MUTATION = loader("../graphql/setUserCategory.graphql");
+const SET_EXCLUDED_MUTATION = loader("../graphql/setUserExcluded.graphql");
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -89,10 +94,14 @@ const TwitterUser = (props: Props) => {
     },
     categories,
   } = props;
-  const [toggleCategory] = useMutation<
+  const [setCategory] = useMutation<
     setUserCategoryMutation,
     setUserCategoryMutationVariables
-  >(SET_CATEGORY_QUERY);
+  >(SET_CATEGORY_MUTATION);
+  const [setExcluded] = useMutation<
+    setUserExcludedMutation,
+    setUserExcludedMutationVariables
+  >(SET_EXCLUDED_MUTATION);
   if (!userData) {
     return (
       <Grid item sm={12} md={6} lg={4} xl={3}>
@@ -152,7 +161,15 @@ const TwitterUser = (props: Props) => {
           </IconButton>
           <MaterialIconCheckbox
             materialUiIcon="block"
-            defaultChecked={excluded}
+            checked={excluded}
+            onChange={(event: React.FormEvent<HTMLInputElement>) => {
+              setExcluded({
+                variables: {
+                  excluded: event.currentTarget.checked,
+                  userId,
+                },
+              });
+            }}
             checkedColor={red[600]}
           />
           {categories.map((category) => (
@@ -160,7 +177,7 @@ const TwitterUser = (props: Props) => {
               key={category.id}
               materialUiIcon={category.iconName}
               onChange={(event: React.FormEvent<HTMLInputElement>) => {
-                toggleCategory({
+                setCategory({
                   variables: {
                     add: event.currentTarget.checked,
                     categoryId: category.id,
